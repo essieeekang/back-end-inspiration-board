@@ -22,8 +22,6 @@ def delete_board(id):
     board = validate_model(Board, id)
 
     db.session.delete(board)
-    db.sesssion.commit()
+    db.session.commit()
 
     return Response(status=204, mimetype="application/json")
-
-
