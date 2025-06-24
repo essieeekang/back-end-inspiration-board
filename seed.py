@@ -1,14 +1,12 @@
 from app import db, create_app
 from app.models.board import Board
 from app.models.card import Card
+from dotenv import load_dotenv
 
-def seed_data():
-    app = create_app()
+load_dotenv()
 
-    with app.app_context():
-        db.drop_all()
-        db.create_all()
-
+app = create_app()
+with app.app_context():
     # Create boards
     ada_board = Board(title="Ada Inspiration", owner="Ada Lovelace")
     nerd_board = Board(title="Nerdy Dev Jokes", owner="Grace Hopper")
@@ -40,8 +38,3 @@ def seed_data():
 
     db.session.add_all(ada_cards + nerd_cards + wellness_cards)
     db.session.commit()
-
-    print("🌟 Seed data loaded!")
-
-if __name__ == "__main__":
-    seed_data()
