@@ -14,7 +14,7 @@ def get_all_cards():
 @bp.get("/<id>")
 def get_one_card(id):
     card = validate_model(card, id)
-    return {"card":card.to_dict()}
+    return {card.to_dict()}
 
 @bp.delete("/<id>")
 def delete_card(id):
