@@ -7,7 +7,6 @@ from .routes.card_routes import bp as cards_bp
 import os
 
 
-
 def create_app(config=None):
     app = Flask(__name__)
 

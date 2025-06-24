@@ -13,7 +13,7 @@ def validate_model(cls, model_id):
     except ValueError:
         message = {"error": f"{cls.__name__} id ({model_id}) is invalid."}
         abort(make_response(message, 400))
-
+    
     query = db.select(cls).where(cls.id == model_id)
     model = db.session.scalar(query)
 

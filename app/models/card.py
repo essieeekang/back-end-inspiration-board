@@ -6,9 +6,8 @@ if TYPE_CHECKING:
     from .board import Board
 
 
-
 class Card(db.Model):
-    card_id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     message: Mapped[str]
     likes_count: Mapped[int]
     board_id: Mapped[int] = mapped_column(ForeignKey("board.id"))
@@ -18,7 +17,7 @@ class Card(db.Model):
 
     def to_dict(self):
         card = {
-            "id": self.card_id,
+            "id": self.id,
             "message": self.message,
             "likes": self.likes_count,
         }

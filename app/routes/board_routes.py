@@ -15,3 +15,15 @@ def get_all_boards():
 def post_new_board():
     request_body = request.get_json()
     return create_model(Board, request_body)
+
+
+@bp.delete("/<id>", strict_slashes=False)
+def delete_board(id):
+    board = validate_model(Board, id)
+
+    db.session.delete(board)
+    db.sesssion.commit()
+
+    return Response(status=204, mimetype="application/json")
+
+

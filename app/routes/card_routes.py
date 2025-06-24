@@ -18,7 +18,7 @@ def get_one_card(id):
 
 @bp.delete("/<id>")
 def delete_card(id):
-    card = validate_model(card, id)
+    card = validate_model(Card, id)
 
     db.session.delete(card)
     db.session.commit()
@@ -29,3 +29,12 @@ def delete_card(id):
 def post_new_card():
     request_body = request.get_json()
     return create_model(Card, request_body)
+
+@bp.patch("<id>/like", strict_slashes=False)
+def increase_like_counts(id):
+    card = validate_model(Card, id)
+
+    card.likes_count += 1
+    db.session.commit()
+
+    return Response(status=204, mimetype="application/json")
