@@ -20,6 +20,7 @@ class Board(db.Model):
 
         return board
 
+
     @classmethod
     def from_dict(cls, board_data):
         return cls(
