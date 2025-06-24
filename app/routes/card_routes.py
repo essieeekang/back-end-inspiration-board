@@ -13,7 +13,7 @@ def get_all_cards():
 
 @bp.get("/<id>")
 def get_one_card(id):
-    card = validate_model(card, id)
+    card = validate_model(Card, id)
     return {card.to_dict()}
 
 @bp.delete("/<id>")
