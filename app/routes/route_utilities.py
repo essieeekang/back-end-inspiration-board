@@ -13,7 +13,7 @@ def validate_model(cls, model_id):
     except ValueError:
         message = {"error": f"{cls.__name__} id ({model_id}) is invalid."}
         abort(make_response(message, 400))
-    
+
     query = db.select(cls).where(cls.id == model_id)
     model = db.session.scalar(query)
 
@@ -34,7 +34,7 @@ def create_model(cls, model_data):
     db.session.add(model)
     db.session.commit()
 
-    return {f"{model}": model.to_dict()}, 201
+    return model.to_dict(), 201
 
 
 def get_all_models(cls):

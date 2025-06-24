@@ -14,7 +14,7 @@ def get_all_cards():
 @bp.get("/<id>")
 def get_one_card(id):
     card = validate_model(Card, id)
-    return {card.to_dict()}
+    return card.to_dict()
 
 @bp.delete("/<id>")
 def delete_card(id):
@@ -37,4 +37,4 @@ def increase_like_counts(id):
     card.likes_count += 1
     db.session.commit()
 
-    return Response(status=204, mimetype="application/json")
+    return card.to_dict()

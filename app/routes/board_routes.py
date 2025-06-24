@@ -30,5 +30,5 @@ def delete_board(id):
 @bp.get("/<id>/cards")
 def get_cards_by_board(id):
     board = validate_model(Board, id)
-    response = {"cards": [card.to_dict() for card in board.cards]}
+    response = [card.to_dict() for card in board.cards]
     return response
