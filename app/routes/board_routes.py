@@ -38,7 +38,7 @@ def get_cards_by_board(id):
     if sort_param == "likes":
         query = query.order_by(Card.likes_count.desc())
 
-    if sort_param == "alphabelic":
+    if sort_param == "alphabetic":
         query = query.order_by(Card.message)
 
     cards = db.session.scalars(query)
