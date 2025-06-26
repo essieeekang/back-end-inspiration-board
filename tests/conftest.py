@@ -95,3 +95,18 @@ def one_board(app):
 
     db.session.add(new_board)
     db.session.commit()
+
+
+@pytest.fixture
+def four_boards(app):
+    db.session.add_all([
+        Board(title="vacation",
+              owner="Jenny"),
+        Board(title="travel",
+              owner="Malik"),
+        Board(title="333 - 22",
+              owner="Esther"),
+        Board(title="~Words~",
+              owner="Brian"),
+    ])
+    db.session.commit()
