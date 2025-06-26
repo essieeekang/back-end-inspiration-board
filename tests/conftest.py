@@ -79,6 +79,25 @@ def five_cards(app):
 
 
 @pytest.fixture
+def three_cards_with_likes(app):
+    db.session.add_all([
+        Card(message="Have a great day!",
+             likes_count = 3,
+             board_id = 1,
+        ),
+        Card(message="Test msg!",
+            likes_count=1,
+            board_id=1
+        ),
+        Card(message="You're doing great!!",
+            likes_count=10,
+            board_id=1
+        ),
+    ])
+    db.session.commit()
+
+
+@pytest.fixture
 def one_board(app):
     new_board = Board(title="Going outside daily",
                     owner="Jenny",
