@@ -44,8 +44,7 @@ def client(app):
 def single_card(app):
     new_card = Card(message="Have a great day!",
                     likes_count=0,
-                    board_id=1
-                    )
+                    board_id=1)
 
     db.session.add(new_card)
     db.session.commit()
@@ -56,24 +55,19 @@ def five_cards(app):
     db.session.add_all([
         Card(message="Have a great day!",
             likes_count=0,
-            board_id=1
-        ),
+            board_id=1),
         Card(message="Test msg!",
             likes_count=0,
-            board_id=1
-        ),
+            board_id=1),
         Card(message="You're doing great!!",
             likes_count=0,
-            board_id=1
-        ),
+            board_id=1),
         Card(message="Eat a cookie!",
             likes_count=0,
-            board_id=1
-        ),
+            board_id=1),
         Card(message="Take a break!",
             likes_count=0,
-            board_id=1
-        ),
+            board_id=1),
     ])
     db.session.commit()
 
@@ -82,17 +76,14 @@ def five_cards(app):
 def three_cards_with_likes(app):
     db.session.add_all([
         Card(message="Have a great day!",
-             likes_count = 3,
-             board_id = 1,
-        ),
+            likes_count = 3,
+            board_id = 1),
         Card(message="Test msg!",
             likes_count=1,
-            board_id=1
-        ),
+            board_id=1),
         Card(message="You're doing great!!",
             likes_count=10,
-            board_id=1
-        ),
+            board_id=1),
     ])
     db.session.commit()
 
@@ -100,8 +91,7 @@ def three_cards_with_likes(app):
 @pytest.fixture
 def one_board(app):
     new_board = Board(title="Going outside daily",
-                    owner="Jenny",
-                    )
+                      owner="Jenny")
 
     db.session.add(new_board)
     db.session.commit()
