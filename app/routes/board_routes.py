@@ -6,6 +6,7 @@ from .route_utilities import validate_model, create_model, get_all_models
 
 bp = Blueprint("boards_bp", __name__, url_prefix="/boards")
 
+
 @bp.get("", strict_slashes=False)
 def get_all_boards():
     return get_all_models(Board)
@@ -36,11 +37,10 @@ def get_cards_by_board(id):
 
     if sort_param == "likes":
         query = query.order_by(Card.likes_count.desc())
-    
+
     if sort_param == "alphabelic":
         query = query.order_by(Card.message)
 
     cards = db.session.scalars(query)
     response = [card.to_dict() for card in cards]
     return response
-
