@@ -112,10 +112,20 @@ def test_delete_card(client, one_board, five_cards):
 
 # POST route test
 def test_post_new_card(client, one_board):
-    response = client.post("/cards", json={
+    post_response = client.post("/cards", json={
         "message": "A new card!",
         "board_id": 1,
     })
+    get_response = client.get("/cards")
+    get_response_body = get_response.get_json()
+
+    assert get_response.status_code == STATUS_CODE["OK"]
+    assert len(get_response_body) == 1
+    assert get_response_body == [{
+        "id": 1,
+        "message": "A new card!",
+        "likes": 0,
+    }]
 
 
 # PATCH route test
