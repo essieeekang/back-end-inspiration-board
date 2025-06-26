@@ -31,7 +31,7 @@ def delete_board(id):
 @bp.get("/<id>/cards")
 def get_cards_by_board(id):
     board = validate_model(Board, id)
-    query = db.select(Card)
+    query = db.select(Card).where(Card.board_id == id)
 
     sort_param = request.args.get("sort")
 
