@@ -9,7 +9,20 @@ bp = Blueprint("cards_bp", __name__, url_prefix = "/cards")
 
 @bp.get("")
 def get_all_cards():
-    return get_all_models(Card)
+    query = db.select(Card)
+
+    sort_param = request.args.get("sort")
+
+    if sort_param == "likes":
+        query = query.order_by(Card.likes_count.desc())
+    
+    if sort_param == "alphabelic":
+        query = query.order_by(Card.message)
+
+    cards = db.session.scalars(query)
+    cards_response = [card.to_dict() for card in cards]
+
+    return cards_response
 
 @bp.get("/<id>")
 def get_one_card(id):

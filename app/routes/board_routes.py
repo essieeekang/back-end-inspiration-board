@@ -30,5 +30,17 @@ def delete_board(id):
 @bp.get("/<id>/cards")
 def get_cards_by_board(id):
     board = validate_model(Board, id)
-    response = [card.to_dict() for card in board.cards]
+    query = db.select(Card)
+
+    sort_param = request.args.get("sort")
+
+    if sort_param == "likes":
+        query = query.order_by(Card.likes_count.desc())
+    
+    if sort_param == "alphabelic":
+        query = query.order_by(Card.message)
+
+    cards = db.session.scalars(query)
+    response = [card.to_dict() for card in cards]
     return response
+
