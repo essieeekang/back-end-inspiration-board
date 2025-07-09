@@ -23,7 +23,7 @@ class Card(db.Model):
             "likes": self.likes_count,
         }
         if self.image_url:
-            card["image_url"] = self.image_url
+            card["image"] = self.image_url
 
         return card
 
