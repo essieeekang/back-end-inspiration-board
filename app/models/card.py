@@ -20,10 +20,11 @@ class Card(db.Model):
             '#e4a8b9',
             '#c8a8d5',
             '#d2ccf2',
-            '#f2d2cc'
+            '#f2d2cc',
+            '#e4eeff',
             ]
 
-        randomColor = randint(0, 4)
+        randomColor = randint(0, 5)
 
         card = {
             "id": self.id,
