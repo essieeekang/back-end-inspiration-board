@@ -64,7 +64,7 @@ def upload_to_s3(file):
         filename = secure_filename(file.filename)
         unique_filename = f"{uuid4()}_{filename}"
 
-        s3_client.upload_fileobj(
+        result = s3_client.upload_fileobj(
             file,
             s3_bucket,
             unique_filename,
@@ -72,5 +72,6 @@ def upload_to_s3(file):
         )
 
         return f"https://{s3_bucket}.s3.amazonaws.com/{unique_filename}"
-    except ClientError:
+    except ClientError as e:
+        print(e)
         return None
