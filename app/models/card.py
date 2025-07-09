@@ -4,6 +4,7 @@ from app.db import db
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from .board import Board
+from random import randint
 
 
 class Card(db.Model):
@@ -13,17 +14,25 @@ class Card(db.Model):
     board_id: Mapped[int] = mapped_column(ForeignKey("board.id"))
     board: Mapped["Board"] = relationship(back_populates="cards")
 
-
-
     def to_dict(self):
+        colors = [
+            '#db96b9',
+            '#e4a8b9',
+            '#c8a8d5',
+            '#d2ccf2',
+            '#f2d2cc'
+            ]
+
+        randomColor = randint(0, 4)
+
         card = {
             "id": self.id,
             "message": self.message,
             "likes": self.likes_count,
+            "color": colors[randomColor]
         }
 
         return card
-
 
     @classmethod
     def from_dict(cls, card_data):
