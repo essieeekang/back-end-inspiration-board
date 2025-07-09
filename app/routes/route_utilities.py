@@ -1,6 +1,12 @@
 from sqlalchemy import desc
 from flask import abort, make_response, request
 from app.db import db
+from uuid import uuid4
+from werkzeug.utils import secure_filename
+from botocore.exceptions import ClientError
+import boto3
+import os
+
 
 def validate_model(cls, model_id):
     """Returns validated model.
@@ -44,4 +50,27 @@ def get_all_models(cls):
 
     return [model.to_dict() for model in models]
 
-# def get_models_with_filters(cls):
+def upload_to_s3(file):
+    try:
+        s3_client = boto3.client(
+            "s3",
+            aws_access_key_id = os.environ.get("AWS_ACCESS_KEY_ID"),
+            aws_secret_access_key = os.environ.get("AWS_SECRET_ACCESS_KEY"),
+            region = os.environ.get("AWS_REGION"),
+        )
+
+        s3_bucket = os.environ.get("S3_BUCKET_NAME")
+
+        filename = secure_filename(file.filename)
+        unique_filename = f"{uuid4()}_{filename}"
+
+        s3_client.upload_fileobj(
+            file,
+            s3_bucket,
+            unique_filename,
+            ExtraArgs={"ACL": "public-read"},
+        )
+
+        return f"https://{s3_bucket}.s3.amazonaws.com/{unique_filename}"
+    except ClientError:
+        return {"error": "Image upload failed"}, 400

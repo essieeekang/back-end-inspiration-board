@@ -1,8 +1,7 @@
 from flask import  Blueprint, request, Response, abort, make_response
-from .route_utilities import validate_model, create_model, get_all_models
-from ..db import db
+from .route_utilities import validate_model, create_model, upload_to_s3
+from app.db import db
 from app.models.card import Card
-import os
 import requests
 
 bp = Blueprint("cards_bp", __name__, url_prefix = "/cards")
@@ -45,6 +44,15 @@ def delete_card(id):
 @bp.post("")
 def post_new_card():
     request_body = request.get_json()
+    image_url = None
+
+    if "image" in request.files:
+        image_file = request.files['image']
+        if image_file and image_file.filename != "":
+            image_url = upload_to_s3(image_file)
+            if image_url:
+                request_body['image_url'] = image_url
+
     return create_model(Card, request_body)
 
 
