@@ -56,7 +56,7 @@ def upload_to_s3(file):
             "s3",
             aws_access_key_id = os.environ.get("AWS_ACCESS_KEY_ID"),
             aws_secret_access_key = os.environ.get("AWS_SECRET_ACCESS_KEY"),
-            region = os.environ.get("AWS_REGION"),
+            region_name = os.environ.get("AWS_REGION"),
         )
 
         s3_bucket = os.environ.get("S3_BUCKET_NAME")
@@ -73,4 +73,4 @@ def upload_to_s3(file):
 
         return f"https://{s3_bucket}.s3.amazonaws.com/{unique_filename}"
     except ClientError:
-        return {"error": "Image upload failed"}, 400
+        return None

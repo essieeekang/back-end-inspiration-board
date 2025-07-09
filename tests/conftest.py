@@ -1,11 +1,13 @@
-import pytest
 from app import create_app
 from app.db import db
 from flask.signals import request_finished
 from dotenv import load_dotenv
-import os
 from app.models.board import Board
 from app.models.card import Card
+from unittest.mock import patch
+from io import BytesIO
+import pytest
+import os
 
 
 load_dotenv()
@@ -110,3 +112,17 @@ def four_boards(app):
               owner="Brian"),
     ])
     db.session.commit()
+
+
+@pytest.fixture
+def mock_upload():
+    with patch("app.routes.route_utilities.upload_to_s3") as mock:
+        yield mock
+
+
+@pytest.fixture
+def mock_image_file():
+    image = BytesIO(b"fake image data")
+    image.name = "test_image.jpg"
+
+    return image
