@@ -43,13 +43,10 @@ def delete_card(id):
 
 @bp.post("")
 def post_new_card():
-    if request.is_json:
-        request_body = request.get_json()
-    else:
-        request_body = {
-            "message": request.form.get("message"),
-            "board_id": int(request.form.get("board_id"))
-        }
+    request_body = {
+        "message": request.form.get("message"),
+        "board_id": int(request.form.get("board_id"))
+    }
     image_url = None
 
     if "image" in request.files:
