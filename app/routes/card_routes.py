@@ -43,18 +43,29 @@ def delete_card(id):
 
 @bp.post("")
 def post_new_card():
-    request_body = {
-        "message": request.form.get("message"),
-        "board_id": int(request.form.get("board_id"))
-    }
+    # Handle both JSON and form data
+    if request.is_json:
+        request_body = {
+            "message": request.json.get("message"),
+            "board_id": request.json.get("board_id"),
+        }
+    else:
+        board_id_str = request.form.get("board_id")
+        if board_id_str is None:
+            abort(400, {"error": "board_id is required"})
+        request_body = {
+            "message": request.form.get("message"),
+            "board_id": int(board_id_str),
+        }
+
     image_url = None
 
     if "image" in request.files:
-        image_file = request.files['image']
+        image_file = request.files["image"]
         if image_file and image_file.filename != "":
             image_url = upload_to_s3(image_file)
             if image_url:
-                request_body['image_url'] = image_url
+                request_body["image_url"] = image_url
 
     return create_model(Card, request_body)
 

@@ -1,6 +1,7 @@
 from app.models.board import Board
 from app.db import db
 import pytest
+from unittest.mock import patch
 
 STATUS_CODE = {"OK": 200, "NO CONTENT": 204}
 
@@ -36,7 +37,8 @@ def test_get_all_boards_no_sort(client, four_boards):
     ]
 
 
-def test_get_cards_by_board(client, one_board, three_cards_with_likes):
+@patch("app.models.card.randint", return_value=0)  # Always return first color
+def test_get_cards_by_board(mock_randint, client, one_board, three_cards_with_likes):
     response = client.get("/boards/1/cards?sort=likes")
     response_body = response.get_json()
 
@@ -47,16 +49,19 @@ def test_get_cards_by_board(client, one_board, three_cards_with_likes):
             "id": 3,
             "message": "You're doing great!!",
             "likes": 10,
+            "color": "#db96b9",
         },
         {
             "id": 1,
             "message": "Have a great day!",
             "likes": 3,
+            "color": "#db96b9",
         },
         {
             "id": 2,
             "message": "Test msg!",
             "likes": 1,
+            "color": "#db96b9",
         },
     ]
 
